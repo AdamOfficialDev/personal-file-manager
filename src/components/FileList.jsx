@@ -23,7 +23,9 @@ const FileList = ({ files, onFolderClick }) => {
                 </div>
               </div>
               <div className="card-body items-center text-center">
-                <h2 className="text-sm font-semibold">{file.name}</h2>
+                <h2 className="text-sm font-semibold line-clamp-1">
+                  {file.name}
+                </h2>
               </div>
             </div>
           )}
