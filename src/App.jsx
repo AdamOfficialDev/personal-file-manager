@@ -6,14 +6,16 @@ import FileManager from "./components/FileManager";
 function App() {
   return (
     <Router>
-      <Routes>
-        {/* Rute utama yang mengarah ke FileManager */}
-        <Route path="/" element={<FileManager />} />
-        {/* Rute lain jika ada */}
-        <Route path="/folder/*" element={<FileManager />} />
-        {/* Misalnya rute lain yang mungkin ada */}
-        {/* <Route path="/home" element={<Home />} /> */}
-      </Routes>
+      <div className="min-h-screen bg-base-200 p-6">
+        <Routes>
+          {/* Rute utama yang mengarah ke FileManager */}
+          <Route path="/" element={<FileManager />} />
+          {/* Rute lain jika ada */}
+          <Route path="/folder/*" element={<FileManager />} />
+          {/* Misalnya rute lain yang mungkin ada */}
+          {/* <Route path="/home" element={<Home />} /> */}
+        </Routes>
+      </div>
     </Router>
   );
 }
