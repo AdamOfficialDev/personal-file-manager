@@ -103,7 +103,7 @@ const FileUpload = ({ onFileUploaded, currentFolder }) => {
             value={progress}
             max="100"
           />
-          <span>{progress}%</span> {/* Display percentage */}
+          <span> {progress}%</span> {/* Display percentage */}
         </div>
       )}
     </div>

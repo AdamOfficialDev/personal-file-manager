@@ -10,13 +10,15 @@ import {
   uploadBytesResumable,
 } from "firebase/storage";
 import { AiOutlineFolderAdd } from "react-icons/ai";
+import { FiX } from "react-icons/fi";
 
 function FileManager() {
   const { "*": folderPath } = useParams();
   const [files, setFiles] = useState([]);
   const [newFolderName, setNewFolderName] = useState("");
-  const [showNewFolderInput, setShowNewFolderInput] = useState(false);
+  const [showModal, setShowModal] = useState(false); // State untuk mengontrol modal
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
+  const [previewFile, setPreviewFile] = useState(null); // State untuk menyimpan file yang akan di-preview
   const navigate = useNavigate();
   const currentFolder = folderPath ? `uploads/${folderPath}/` : "uploads/";
 
@@ -69,7 +71,7 @@ function FileManager() {
 
       setFiles((prevFiles) => [...prevFiles, { name: newFolderName, url: "" }]);
       setNewFolderName("");
-      setShowNewFolderInput(false); // Hide input after creation
+      setShowModal(false); // Hide modal after creation
       setShowSuccessMessage(true);
       setTimeout(() => setShowSuccessMessage(false), 3000);
     } catch (error) {
@@ -90,6 +92,16 @@ function FileManager() {
     pathParts.pop(); // Remove the current folder
     const parentPath = pathParts.join("/");
     navigate(parentPath ? `/folder/${parentPath}` : "/folder");
+  };
+
+  // Preview File
+  const handlePreviewFile = (file) => {
+    setPreviewFile(file);
+  };
+
+  // Close preview modal
+  const handleClosePreview = () => {
+    setPreviewFile(null);
   };
 
   // Breadcrumbs
@@ -120,70 +132,102 @@ function FileManager() {
       <div className="breadcrumbs text-sm mt-4 mb-4">
         <ul>
           <li>
-            <Link to="/">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                className="h-4 w-4 stroke-current"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"
-                ></path>
-              </svg>
-              Home
-            </Link>
+            <Link to="/">Home</Link>
           </li>
           {breadcrumbLinks.map((crumb, index) => (
             <li key={index}>
-              <Link to={crumb.path}>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  className="h-4 w-4 stroke-current"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"
-                  ></path>
-                </svg>
-                {crumb.name}
-              </Link>
+              <Link to={crumb.path}>{crumb.name}</Link>
             </li>
           ))}
         </ul>
       </div>
 
-      <FileList files={files} onFolderClick={handleFolderClick} />
+      <FileList
+        files={files}
+        onFolderClick={handleFolderClick}
+        onFilePreview={handlePreviewFile}
+      />
 
-      <div className="fixed bottom-4 right-4 flex items-center space-x-2">
-        {showNewFolderInput && (
-          <>
+      {/* Modal for file preview */}
+      {previewFile && (
+        <div className="modal modal-open">
+          <div className="modal-box">
+            <button
+              className="btn btn-sm btn-circle absolute right-2 top-2"
+              onClick={handleClosePreview}
+            >
+              <FiX />
+            </button>
+            <h3 className="text-lg font-bold mb-4">
+              Preview: {previewFile.name}
+            </h3>
+
+            {/* Show preview for image files */}
+            {previewFile.url &&
+            previewFile.name.match(/\.(jpg|jpeg|png|gif)$/i) ? (
+              <img
+                src={previewFile.url}
+                alt={previewFile.name}
+                className="w-full"
+              />
+            ) : previewFile.url && previewFile.name.match(/\.(txt)$/i) ? (
+              <iframe
+                src={previewFile.url}
+                title={previewFile.name}
+                className="w-full h-64"
+              />
+            ) : previewFile.url &&
+              !previewFile.name.match(/\.(jpg|jpeg|png|gif|txt)$/i) ? (
+              <div className="flex flex-col items-center">
+                <p>File preview is not available for this file type.</p>
+                <a
+                  href={previewFile.url}
+                  download
+                  className="btn btn-primary mt-4"
+                >
+                  Download
+                </a>
+              </div>
+            ) : (
+              <div>File preview is not available for this file type.</div>
+            )}
+          </div>
+        </div>
+      )}
+
+      {/* Modal for creating new folder */}
+      <button
+        onClick={() => setShowModal(true)}
+        className="btn btn-primary fixed bottom-4 right-4"
+      >
+        <AiOutlineFolderAdd className="text-xl" />
+      </button>
+
+      {showModal && (
+        <div className="modal modal-open">
+          <div className="modal-box">
+            <button
+              className="btn btn-sm btn-circle absolute right-2 top-2"
+              onClick={() => setShowModal(false)}
+            >
+              <FiX />
+            </button>
+            <h3 className="text-lg font-bold">Create New Folder</h3>
             <input
               type="text"
-              placeholder="New Folder Name"
+              placeholder="Folder Name"
               value={newFolderName}
               onChange={(e) => setNewFolderName(e.target.value)}
-              className="input input-bordered"
+              className="input input-bordered w-full mt-4"
             />
-            <button onClick={handleCreateFolder} className="btn btn-primary">
-              <AiOutlineFolderAdd className="text-xl" />
-            </button>
-          </>
-        )}
-        <button
-          onClick={() => setShowNewFolderInput(!showNewFolderInput)}
-          className="btn btn-secondary"
-        >
-          {showNewFolderInput ? "Cancel" : "New Folder"}
-        </button>
-      </div>
+            <div className="modal-action">
+              <button onClick={handleCreateFolder} className="btn btn-primary">
+                Create
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {showSuccessMessage && (
         <div className="fixed bottom-4 left-4 bg-green-500 text-white p-2 rounded">
