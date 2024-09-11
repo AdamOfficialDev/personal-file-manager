@@ -158,8 +158,8 @@ function FileManager() {
             >
               <FiX />
             </button>
-            <h3 className="text-lg font-bold mb-4">
-              Preview: {previewFile.name}
+            <h3 className="text-lg font-bold mb-4 line-clamp-1">
+              {previewFile.name}
             </h3>
 
             {/* Show preview for image files */}
@@ -168,7 +168,7 @@ function FileManager() {
               <img
                 src={previewFile.url}
                 alt={previewFile.name}
-                className="w-full"
+                className="w-full rounded-md"
               />
             ) : previewFile.url && previewFile.name.match(/\.(txt)$/i) ? (
               <iframe
