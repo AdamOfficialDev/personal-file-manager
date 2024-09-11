@@ -182,6 +182,7 @@ function FileManager() {
                 <p>File preview is not available for this file type.</p>
                 <a
                   href={previewFile.url}
+                  target="_blank"
                   download
                   className="btn btn-primary mt-4"
                 >

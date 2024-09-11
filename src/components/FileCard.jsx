@@ -8,53 +8,34 @@ const FileCard = ({ file }) => {
       return null; // Gambar tetap ditampilkan
     } else if (fileName.match(/\.(txt)$/i)) {
       return (
-        <i
-          className="bi bi-file-earmark-text text-blue-500"
-          style={{ fontSize: "48px" }}
-        ></i>
+        <i className="bi bi-file-earmark-text text-[8rem] text-blue-500"></i>
       );
     } else if (fileName.match(/\.(pdf)$/i)) {
       return (
-        <i
-          className="bi bi-file-earmark-pdf text-red-500"
-          style={{ fontSize: "48px" }}
-        ></i>
+        <i className="bi bi-file-earmark-pdf text-[8rem] text-red-500"></i>
       );
     } else if (fileName.match(/\.(zip|rar)$/i)) {
       return (
-        <i
-          className="bi bi-file-earmark-zip text-yellow-500"
-          style={{ fontSize: "48px" }}
-        ></i>
+        <i className="bi bi-file-earmark-zip text-[8rem] text-yellow-500"></i>
       );
     } else if (fileName.match(/\.(doc|docx)$/i)) {
       return (
-        <i
-          className="bi bi-file-earmark-word text-blue-500"
-          style={{ fontSize: "48px" }}
-        ></i>
+        <i className="bi bi-file-earmark-word text-[8rem] text-blue-500"></i>
       );
     } else if (fileName.match(/\.(xls|xlsx)$/i)) {
       return (
-        <i
-          className="bi bi-file-earmark-spreadsheet text-green-500"
-          style={{ fontSize: "48px" }}
-        ></i>
+        <i className="bi bi-file-earmark-spreadsheet text-[8rem] text-green-500"></i>
       );
     } else if (fileName.match(/\.(ppt|pptx)$/i)) {
       return (
-        <i
-          className="bi bi-file-earmark-ppt text-red-500"
-          style={{ fontSize: "48px" }}
-        ></i>
+        <i className="bi bi-file-earmark-ppt text-[8rem] text-red-500"></i>
+      );
+    } else if (fileName.match(/\.(mp3|wav|ogg)$/i)) {
+      return (
+        <i className="bi bi-file-earmark-music text-[8rem] text-green-500"></i>
       );
     } else {
-      return (
-        <i
-          className="bi bi-file-earmark text-slate-300"
-          style={{ fontSize: "48px" }}
-        ></i>
-      );
+      return <i className="bi bi-file-earmark text-[8rem] text-slate-300"></i>;
     }
   };
 
