@@ -10,7 +10,7 @@ import {
   uploadBytesResumable,
 } from "firebase/storage";
 import { AiOutlineFolderAdd } from "react-icons/ai";
-import { FiX } from "react-icons/fi";
+import { FiX, FiDownloadCloud } from "react-icons/fi";
 
 function FileManager() {
   const { "*": folderPath } = useParams();
@@ -185,7 +185,7 @@ function FileManager() {
                   download
                   className="btn btn-primary mt-4"
                 >
-                  Download
+                  <FiDownloadCloud /> Download
                 </a>
               </div>
             ) : (
