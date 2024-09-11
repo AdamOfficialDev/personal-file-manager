@@ -9,7 +9,7 @@ import {
   getDownloadURL,
   uploadBytesResumable,
 } from "firebase/storage";
-import { AiOutlineFolderAdd } from "react-icons/ai";
+import { AiFillFolderAdd, AiOutlineFolderAdd } from "react-icons/ai";
 import { FiX, FiDownloadCloud } from "react-icons/fi";
 
 function FileManager() {
@@ -201,7 +201,7 @@ function FileManager() {
         onClick={() => setShowModal(true)}
         className="btn btn-primary fixed bottom-4 right-4"
       >
-        <AiOutlineFolderAdd className="text-xl" />
+        <AiFillFolderAdd className="text-xl" />
       </button>
 
       {showModal && (

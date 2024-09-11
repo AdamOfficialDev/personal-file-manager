@@ -1,6 +1,6 @@
 import React from "react";
 import FileCard from "./FileCard";
-import { FiFolder } from "react-icons/fi";
+import { FaRegFolderOpen } from "react-icons/fa6";
 
 const FileList = ({ files, onFolderClick, onFilePreview }) => {
   return (
@@ -20,8 +20,8 @@ const FileList = ({ files, onFolderClick, onFilePreview }) => {
               onClick={() => onFolderClick(file.name)}
             >
               <div className="flex justify-center items-center h-32">
-                <div className="text-6xl text-blue-500">
-                  <FiFolder />
+                <div className="text-[6rem] mt-auto text-blue-500">
+                  <FaRegFolderOpen />
                 </div>
               </div>
               <div className="card-body items-center text-center">
