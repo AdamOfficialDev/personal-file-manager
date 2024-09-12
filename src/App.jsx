@@ -1,6 +1,8 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import FileManager from "./components/FileManager";
+import StorageInfo from "./pages/StorageInfo";
+
 // import Home from "./components/Home"; // Jika masih ada Home atau komponen lain
 
 function App() {
@@ -14,6 +16,7 @@ function App() {
           <Route path="/folder/*" element={<FileManager />} />
           {/* Misalnya rute lain yang mungkin ada */}
           {/* <Route path="/home" element={<Home />} /> */}
+          <Route path="/storage-info" element={<StorageInfo />} />
         </Routes>
       </div>
     </Router>

@@ -34,6 +34,10 @@ const FileCard = ({ file }) => {
       return (
         <i className="bi bi-file-earmark-music text-[8rem] text-green-500"></i>
       );
+    } else if (fileName.match(/\.(mp4)$/i)) {
+      return (
+        <i className="bi bi-file-earmark-play text-[8rem] text-red-500"></i>
+      );
     } else {
       return <i className="bi bi-file-earmark text-[8rem] text-slate-300"></i>;
     }
