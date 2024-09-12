@@ -9,7 +9,7 @@ import {
   getDownloadURL,
   uploadBytesResumable,
 } from "firebase/storage";
-import { AiFillFolderAdd, AiOutlineFolderAdd } from "react-icons/ai";
+import { AiFillFolderAdd } from "react-icons/ai";
 import { FiX, FiDownloadCloud } from "react-icons/fi";
 
 function FileManager() {
@@ -18,6 +18,7 @@ function FileManager() {
   const [newFolderName, setNewFolderName] = useState("");
   const [showModal, setShowModal] = useState(false); // State untuk mengontrol modal
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
+  const [showErrorMessage, setShowErrorMessage] = useState(""); // State untuk pesan error
   const [previewFile, setPreviewFile] = useState(null); // State untuk menyimpan file yang akan di-preview
   const navigate = useNavigate();
   const currentFolder = folderPath ? `uploads/${folderPath}/` : "uploads/";
@@ -56,7 +57,11 @@ function FileManager() {
 
   // Create new folder
   const handleCreateFolder = async () => {
-    if (newFolderName.trim() === "") return;
+    if (newFolderName.trim() === "") {
+      setShowErrorMessage("Folder name cannot be empty.");
+      setTimeout(() => setShowErrorMessage(""), 3000);
+      return;
+    }
 
     try {
       const folderRef = ref(storage, `${currentFolder}${newFolderName}/`);
@@ -73,6 +78,7 @@ function FileManager() {
       setNewFolderName("");
       setShowModal(false); // Hide modal after creation
       setShowSuccessMessage(true);
+      setShowErrorMessage(""); // Clear any previous error message
       setTimeout(() => setShowSuccessMessage(false), 3000);
     } catch (error) {
       console.error("Error creating folder: ", error);
@@ -214,6 +220,11 @@ function FileManager() {
               <FiX />
             </button>
             <h3 className="text-lg font-bold">Create New Folder</h3>
+            {showErrorMessage && (
+              <div role="alert" className="alert alert-error mt-2">
+                <span>{showErrorMessage}</span>
+              </div>
+            )}
             <input
               type="text"
               placeholder="Folder Name"
@@ -231,7 +242,7 @@ function FileManager() {
       )}
 
       {showSuccessMessage && (
-        <div className="fixed bottom-4 left-4 bg-green-500 text-white p-2 rounded">
+        <div className="fixed bottom-4 left-4 bg-green-500  text-white p-3 rounded-lg">
           Folder created successfully!
         </div>
       )}
