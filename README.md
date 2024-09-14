@@ -48,7 +48,7 @@ To set up and run the project locally:
 5. Open your browser and go to:
 
    ```
-   http://localhost:3000
+   http://localhost:5173
    ```
 
 ## Folder Structure 🗃️
